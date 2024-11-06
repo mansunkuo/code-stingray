@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "code-stingray"
+version = "0.1.0"
+description = "code-stingray is a lightweight CLI powered by LangChain, designed to integrate seamlessly with both conversational AI models and various CI/CD tools."
+authors = ["Mansun Kuo <coccolegacy@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.3.4"
+langchain-google-vertexai = "^2.0.5"
+langchain-openai = "^0.2.4"
+pytest = "^8.3.3"
+
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.1"
+black = "^24.10.0"
+poetry-plugin-export = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
