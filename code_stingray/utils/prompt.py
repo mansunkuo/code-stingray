@@ -72,8 +72,10 @@ class Prompt:
     def get_review_prompt(self) -> ChatPromptTemplate:
         review_prompt = ChatPromptTemplate(
             [
-                ("system", self.review_instructions),
-                ("system", self.review_output_format),
+                ("human", self.review_instructions),
+                ("human", self.review_output_format),
+                # ("system", self.review_instructions),
+                # ("system", self.review_output_format),
                 self.get_few_shot_prompt(),
                 ("human", "{code}"),
             ]

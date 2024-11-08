@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from code_stingray.llms.google import GoogleLLM
+from code_stingray.llms.google_ai import GoogleAILLM
+from code_stingray.llms.google_cloud import GoogleCloudLLM
 from code_stingray.llms.openai import OpenAILLM
 
 
@@ -20,8 +21,10 @@ class LLMFactory:
     @staticmethod
     def create(provider: str, model_name: str, **kwargs):
         provider = provider.lower()
-        if provider == "google":
-            return GoogleLLM(model_name, **kwargs).create()
+        if provider == "google_ai":
+            return GoogleAILLM(model_name, **kwargs).create()
+        elif provider == "google_cloud":
+            return GoogleCloudLLM(model_name, **kwargs).create()
         elif provider == "openai":
             return OpenAILLM(model_name, **kwargs)
         else:

@@ -19,11 +19,10 @@ import vertexai
 from code_stingray.llms.llm import LLM
 
 
-class GoogleLLM(LLM):
+class GoogleCloudLLM(LLM):
     """Concrete LLM class for Google Vertex AI."""
 
     def __init__(self, model_name, **kwargs):
-        print(kwargs)
         self.project = kwargs.get("google_project")
         self.location = kwargs.get("google_location")
         super().__init__(model_name)

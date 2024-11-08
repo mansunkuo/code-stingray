@@ -56,17 +56,27 @@ def get_args():
     # llm
     llm_parsers = parser.add_subparsers(dest="llm", help="Available LLM")
 
-    # google
-    google_parser = llm_parsers.add_parser("google", help="Google LLM")
-    google_parser.add_argument(
-        "--model", type=str, default="gemini-1.5-flash", help="LLM model name"
+    # google ai
+    google_cloud_parser = llm_parsers.add_parser("google_ai", help="Google AI LLM")
+    google_cloud_parser.add_argument(
+        "--model", type=str, default="gemini-1.5-pro", help="LLM model name"
     )
-    google_parser.add_argument("--google_project", type=str, help="Google Project")
-    google_parser.add_argument(
-        "--google_location",
+
+    # google cloud vertex ai
+    google_cloud_parser = llm_parsers.add_parser(
+        "google_cloud", help="Google Cloud Vertex AI LLM"
+    )
+    google_cloud_parser.add_argument(
+        "--model", type=str, default="gemini-1.5-pro", help="LLM model name"
+    )
+    google_cloud_parser.add_argument(
+        "--google_cloud_project", type=str, help="Google Cloud Project"
+    )
+    google_cloud_parser.add_argument(
+        "--google_cloud_location",
         default="us-west1",
         type=str,
-        help="Google Location (default: %(default)s))",
+        help="Google Cloud Location (default: %(default)s))",
     )
 
     # # openai
@@ -77,9 +87,10 @@ def get_args():
 
     # cicd
     for llm_parser in llm_parsers.choices.values():
-        cicd_parsers = llm_parser.add_subparsers(dest="cicd", help="Available CI/CD")
-        cicd_parsers.add_parser("cloudbuild", help="Cloudbuild CI/CD")
-        cicd_parsers.add_parser("github_actions", help="Github CI/CD")
+        cicd_parsers = llm_parser.add_subparsers(
+            dest="git_platform", help="Git platform"
+        )
+        cicd_parsers.add_parser("github", help="GitHub")
 
     args = parser.parse_args()
 

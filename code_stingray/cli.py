@@ -19,6 +19,7 @@ from code_stingray.llms.llm_factory import LLMFactory
 
 def main():
     args = get_args()
+    print(args)
     llm = LLMFactory.create(args.llm, args.model, **vars(args))
     code_stingray = CodeStingray(llm)
     result = code_stingray.review(
