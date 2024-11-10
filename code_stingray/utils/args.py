@@ -85,12 +85,24 @@ def get_args():
     #     "--model", type=str, default="gpt-4", help="LLM model name"
     # )
 
-    # cicd
+    # Git platform
     for llm_parser in llm_parsers.choices.values():
         cicd_parsers = llm_parser.add_subparsers(
             dest="git_platform", help="Git platform"
         )
-        cicd_parsers.add_parser("github", help="GitHub")
+        github_parser = cicd_parsers.add_parser("github", help="GitHub")
+        github_parser.add_argument(
+            "--github_token", type=str, help="GitHub personal access token"
+        )
+        github_parser.add_argument(
+            "--github_repo_owner", type=str, help="GitHub repository owner"
+        )
+        github_parser.add_argument(
+            "--github_repo_name", type=str, help="GitHub repository name"
+        )
+        github_parser.add_argument(
+            "--github_pr_number", type=int, help="GitHub pull request number"
+        )
 
     args = parser.parse_args()
 

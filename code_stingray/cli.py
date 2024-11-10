@@ -15,6 +15,7 @@
 from code_stingray.utils.args import get_args
 from code_stingray.code_stingray import CodeStingray
 from code_stingray.llms.llm_factory import LLMFactory
+from code_stingray.git_platform.github import GithubCommenter
 
 
 def main():
@@ -31,6 +32,16 @@ def main():
     )
     print(result)
     print(result.content)
+
+    if args.git_platform == "github":
+        github_commenter = GithubCommenter(
+            token=args.github_token,
+            repo_owner=args.github_repo_owner,
+            repo_name=args.github_repo_name,
+        )
+        pr_number = args.github_pr_number
+        comment_body = result.content
+        github_commenter.add_comment(pr_number, comment_body)
 
 
 # Example Usage:
