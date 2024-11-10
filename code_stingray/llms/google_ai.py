@@ -23,5 +23,7 @@ class GoogleAILLM(LLM):
             HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
         }
         return ChatGoogleGenerativeAI(
-            model=self.model_name, safety_settings=safety_settings
+            model=self.model_name,
+            safety_settings=safety_settings,
+            # convert_system_message_to_human=True,
         )

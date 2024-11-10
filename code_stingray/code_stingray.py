@@ -22,7 +22,7 @@ class CodeStingray:
         self.prompt = Prompt()
         self.llm = llm
 
-    def _get_code_from_path(
+    def _get_code_from_local(
         self, path: str, commit1: str = None, commit2: str = None
     ) -> str:
         """Retrieves code from a local path, optionally using Git diff."""
@@ -33,7 +33,7 @@ class CodeStingray:
             code = git.get_diff(commit1=commit1, commit2=commit2)
         return code
 
-    def _get_code_from_git(
+    def _get_code_from_remote_git(
         self, remote_url: str, remote_branch: str, commit1: str, commit2: str
     ) -> str:
         """Retrieves code from a remote Git repository using diff."""
@@ -49,14 +49,22 @@ class CodeStingray:
         commit1: str = None,
         commit2: str = None,
     ):
-        review_prompt = self.prompt.get_review_prompt()
+        # TODO: remove system_as_human when ChatGoogleGenerativeAI works with system prompt
+        # https://github.com/langchain-ai/langchainjs/issues/5069
+        system_as_human = False
+        if self.llm.get_name() == "ChatGoogleGenerativeAI":
+            system_as_human = True
+        review_prompt = self.prompt.get_review_prompt(system_as_human=system_as_human)
+
         # pylint: disable=unsupported-binary-operation
         chain = review_prompt | self.llm
 
         if path:
-            code = self._get_code_from_path(path, commit1, commit2)
+            code = self._get_code_from_local(path, commit1, commit2)
         elif remote_url:
-            code = self._get_code_from_git(remote_url, remote_branch, commit1, commit2)
+            code = self._get_code_from_remote_git(
+                remote_url, remote_branch, commit1, commit2
+            )
         else:
             raise ValueError("Either 'path' or 'remote_url' must be provided.")
 

@@ -1,0 +1,31 @@
+steps:
+  - name: ghcr.io/mansunkuo/code-stingray:0.1.0
+    secretEnv: ['GITHUB_TOKEN']
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        pip install -r requirements.txt
+        apt-get update && \
+        apt-get install -y --no-install-recommends git=1:2.39.5-0+deb12u1  && \
+        rm -rf /var/lib/apt/lists/* && \
+        apt-get clean
+
+        pwd
+        ls
+
+        python -m code_stingray.cli \
+          --remote_url https://github.com/mansunkuo/code-stingray.git \
+          -c1 a1c5c97ad208c0467ba9fe25cd7f82acc54609c6 \
+          -c2 be84f6c32efb05432d44bc8407eb003ac8372dce \
+          google_cloud --google_cloud_project code-stingray \
+          github
+logsBucket: ${PROJECT_ID}_cloudbuild
+serviceAccount: projects/${PROJECT_ID}/serviceAccounts/${PROJECT_ID}@${PROJECT_ID}.iam.gserviceaccount.com
+options:
+  logging: GCS_ONLY
+  # logging: CLOUD_LOGGINGONLY
+availableSecrets:
+  secretManager:
+  - versionName: projects/${PROJECT_ID}/secrets/GITHUB_TOKEN/versions/latest
+    env: GITHUB_TOKEN

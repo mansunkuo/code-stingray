@@ -69,16 +69,25 @@ class Prompt:
 
         return few_shot_prompt
 
-    def get_review_prompt(self) -> ChatPromptTemplate:
+    def get_review_prompt(self, system_as_human: bool = False) -> ChatPromptTemplate:
         review_prompt = ChatPromptTemplate(
             [
-                ("human", self.review_instructions),
-                ("human", self.review_output_format),
-                # ("system", self.review_instructions),
-                # ("system", self.review_output_format),
+                ("system", self.review_instructions),
+                ("system", self.review_output_format),
                 self.get_few_shot_prompt(),
                 ("human", "{code}"),
             ]
         )
+        # TODO: remove system_as_human when ChatGoogleGenerativeAI works with system prompt
+        # https://github.com/langchain-ai/langchainjs/issues/5069
+        if system_as_human:
+            review_prompt = ChatPromptTemplate(
+                [
+                    ("human", self.review_instructions),
+                    ("human", self.review_output_format),
+                    self.get_few_shot_prompt(),
+                    ("human", "{code}"),
+                ]
+            )
 
         return review_prompt
