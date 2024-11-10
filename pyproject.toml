@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "code-stingray"
-version = "0.1.0"
+version = "0.1.1"
 description = "code-stingray is a lightweight CLI powered by LangChain, designed to integrate seamlessly with both conversational AI models and various CI/CD tools."
 authors = ["Mansun Kuo <coccolegacy@gmail.com>"]
 license = "MIT"
