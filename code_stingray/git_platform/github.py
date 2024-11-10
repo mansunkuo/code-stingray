@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from github import Github  # Import github library here
+from github import Github
 
 
 class Commenter(ABC):

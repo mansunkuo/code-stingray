@@ -14,6 +14,7 @@
 
 from argparse import ArgumentParser
 import sys
+import os
 
 
 def get_args():
@@ -92,7 +93,10 @@ def get_args():
         )
         github_parser = cicd_parsers.add_parser("github", help="GitHub")
         github_parser.add_argument(
-            "--github_token", type=str, help="GitHub personal access token"
+            "--github_token",
+            type=str,
+            default=os.environ.get("GITHUB_TOKEN"),
+            help="GitHub personal access token",
         )
         github_parser.add_argument(
             "--github_repo_owner", type=str, help="GitHub repository owner"

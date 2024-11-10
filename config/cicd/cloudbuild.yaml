@@ -5,21 +5,28 @@ steps:
     args:
       - '-c'
       - |
-        pip install -r requirements.txt
-        apt-get update && \
-        apt-get install -y --no-install-recommends git=1:2.39.5-0+deb12u1  && \
-        rm -rf /var/lib/apt/lists/* && \
-        apt-get clean
+        echo "HEAD_BRANCH = $_HEAD_BRANCH"
+        echo "BASE_BRANCH = $_BASE_BRANCH"
+        echo "HEAD_REPO_URL = $_HEAD_REPO_URL"
+        echo "PR_NUMBER = $_PR_NUMBER"
+        echo "REPO_OWNER = $(echo $REPO_FULL_NAME | cut -d '/' -f 1)"
+        echo "REPO_NAME = $REPO_NAME"
 
-        pwd
-        ls
+        git branch
+        git log | cat
+        git fetch origin $_BASE_BRANCH $_HEAD_BRANCH
+        echo "COMMIT1 = $(git rev-parse origin/$_BASE_BRANCH)"
+        echo "COMMIT2 = $(git rev-parse origin/$_HEAD_BRANCH)"
 
         python -m code_stingray.cli \
-          --remote_url https://github.com/mansunkuo/code-stingray.git \
-          -c1 a1c5c97ad208c0467ba9fe25cd7f82acc54609c6 \
-          -c2 be84f6c32efb05432d44bc8407eb003ac8372dce \
+          --path . \
+          -c1 $(git rev-parse origin/$_BASE_BRANCH) \
+          -c2 $(git rev-parse origin/$_HEAD_BRANCH) \
           google_cloud --google_cloud_project code-stingray \
-          github
+          github \
+            --github_repo_owner $(echo $REPO_FULL_NAME | cut -d '/' -f 1) \
+            --github_repo_name $REPO_NAME \
+            --github_pr_number $_PR_NUMBER
 logsBucket: ${PROJECT_ID}_cloudbuild
 serviceAccount: projects/${PROJECT_ID}/serviceAccounts/${PROJECT_ID}@${PROJECT_ID}.iam.gserviceaccount.com
 options:
