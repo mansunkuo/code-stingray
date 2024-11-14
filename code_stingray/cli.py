@@ -35,9 +35,9 @@ def main():
 
     if args.git_platform == "github":
         github_commenter = GithubCommenter(
-            token=args.github_token,
             repo_owner=args.github_repo_owner,
             repo_name=args.github_repo_name,
+            token=args.github_token,
         )
         pr_number = args.github_pr_number
         comment_body = result.content

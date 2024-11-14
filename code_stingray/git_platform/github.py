@@ -21,14 +21,14 @@ class Commenter(ABC):
 class GithubCommenter(Commenter):
     """Adds comments to GitHub pull requests."""
 
-    def __init__(self, token: str, repo_owner: str, repo_name: str):
+    def __init__(self, repo_owner: str, repo_name: str, token: str):
         """
         Initializes the GithubPullRequestCommenter.
 
         Args:
-            token (str): Your GitHub personal access token with appropriate permissions.
             repo_owner (str): The owner of the repository.
             repo_name (str): The name of the repository.
+            token (str): Your GitHub personal access token with appropriate permissions.
         """
 
         self.github = Github(token)
