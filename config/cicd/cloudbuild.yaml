@@ -13,21 +13,21 @@ steps:
         echo "REPO_NAME = $REPO_NAME"
 
         git branch
-        git log | cat
+        git log | head
         git fetch origin $_BASE_BRANCH $_HEAD_BRANCH
-        echo "COMMIT1 = $(git rev-parse origin/$_BASE_BRANCH)"
-        echo "COMMIT2 = $(git rev-parse origin/$_HEAD_BRANCH)"
+        echo "BASE_COMMIT_SHA = $(git rev-parse origin/$_BASE_BRANCH)"
+        echo "HEAD_COMMIT_SHA = $(git rev-parse origin/$_HEAD_BRANCH)"
 
         python -m code_stingray.cli \
           --path . \
           -c1 $(git rev-parse origin/$_BASE_BRANCH) \
           -c2 $(git rev-parse origin/$_HEAD_BRANCH) \
-          google_cloud --google_cloud_project code-stingray \
+          google_cloud --google_cloud_project $PROJECT_ID \
           github \
             --github_repo_owner $(echo $REPO_FULL_NAME | cut -d '/' -f 1) \
             --github_repo_name $REPO_NAME \
             --github_pr_number $_PR_NUMBER
-logsBucket: ${PROJECT_ID}_cloudbuild
+logsBucket: ${PROJECT_ID}_cloudbuild  # Change it as the Bucket you want to use.
 serviceAccount: projects/${PROJECT_ID}/serviceAccounts/${PROJECT_ID}@${PROJECT_ID}.iam.gserviceaccount.com
 options:
   logging: GCS_ONLY

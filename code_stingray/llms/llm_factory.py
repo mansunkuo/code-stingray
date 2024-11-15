@@ -18,14 +18,16 @@ from code_stingray.llms.openai import OpenAILLM
 
 
 class LLMFactory:
+    _providers = {
+        "google_ai": GoogleAILLM,
+        "google_cloud": GoogleCloudLLM,
+        "openai": OpenAILLM,
+    }
+
     @staticmethod
     def create(provider: str, model_name: str, **kwargs):
         provider = provider.lower()
-        if provider == "google_ai":
-            return GoogleAILLM(model_name, **kwargs).create()
-        elif provider == "google_cloud":
-            return GoogleCloudLLM(model_name, **kwargs).create()
-        elif provider == "openai":
-            return OpenAILLM(model_name, **kwargs)
-        else:
-            raise ValueError("Invalid provider.")
+        llm_class = LLMFactory._providers.get(provider)
+        if not llm_class:
+            raise ValueError(f"Invalid provider: {provider}")
+        return llm_class(model_name, **kwargs).create()

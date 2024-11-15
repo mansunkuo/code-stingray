@@ -19,6 +19,14 @@ import os
 
 def get_args():
     parser = ArgumentParser()
+    parser.add_argument(
+        "--log-level",
+        "-l",
+        type=str,
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Set the logging level (default: %(default)s)",
+    )
     path_remote_group = parser.add_mutually_exclusive_group(required=True)
     path_remote_group.add_argument(
         "--path",
@@ -60,7 +68,7 @@ def get_args():
     # google ai
     google_cloud_parser = llm_parsers.add_parser("google_ai", help="Google AI LLM")
     google_cloud_parser.add_argument(
-        "--model", type=str, default="gemini-1.5-pro", help="LLM model name"
+        "--model", type=str, default="gemini-1.5-flash", help="LLM model name"
     )
 
     # google cloud vertex ai
@@ -121,8 +129,3 @@ def get_args():
         )
 
     return args
-
-
-if __name__ == "__main__":
-    cli_args = get_args()
-    print(cli_args)
