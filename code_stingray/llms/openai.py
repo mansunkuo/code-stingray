@@ -24,7 +24,6 @@ class OpenAILLM(LLM):
     """Concrete LLM class for Google Vertex AI."""
 
     def __init__(self, model_name, **kwargs):
-        print(kwargs)
         super().__init__(model_name)
 
     def create(self) -> ChatOpenAI:

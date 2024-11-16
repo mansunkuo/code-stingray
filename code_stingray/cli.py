@@ -15,11 +15,14 @@
 from code_stingray.utils.args import get_args
 from code_stingray.code_stingray import CodeStingray
 from code_stingray.llms.llm_factory import LLMFactory
+from code_stingray.git_platform.commenter_factory import CommenterFactory
+from code_stingray.utils.logging import logger
 
 
 def main():
     args = get_args()
-    print(args)
+    logger.setLevel(args.log_level)
+    logger.debug(args)
     llm = LLMFactory.create(args.llm, args.model, **vars(args))
     code_stingray = CodeStingray(llm)
     result = code_stingray.review(
@@ -29,8 +32,12 @@ def main():
         commit1=args.commit1,
         commit2=args.commit2,
     )
-    print(result)
-    print(result.content)
+    logger.debug(result)
+    logger.info(result.content)
+
+    if args.git_platform:
+        commenter = CommenterFactory.create(args.git_platform, **vars(args))
+        commenter.add_comment(result.content)
 
 
 # Example Usage:
