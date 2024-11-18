@@ -9,8 +9,16 @@ Please make sure you already [set up a project and a development environment of 
 Please refer to [Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation) or [set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) when you are on your laptop or any other environment outside GCP.
 
 ## Development
+### Export requirements
 ```bash
 poetry export -f requirements.txt --without-hashes --output requirements.txt
+```
+
+### Version Bump
+```bash
+bump2version major  # Bump major version
+bump2version minor  # Bump minor version
+bump2version patch  # Bump patch version 
 ```
 
 ## License and Attribution

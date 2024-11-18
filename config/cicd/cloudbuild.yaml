@@ -1,5 +1,5 @@
 steps:
-  - name: ghcr.io/mansunkuo/code-stingray:0.1.1
+  - name: ghcr.io/mansunkuo/code-stingray:0.1.2
     secretEnv: ['GITHUB_TOKEN']
     entrypoint: bash
     args:
