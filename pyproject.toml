@@ -5,6 +5,7 @@ description = "code-stingray is a lightweight CLI powered by LangChain, designed
 authors = ["Mansun Kuo <coccolegacy@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+include = [{ path = "config/*", format = ["sdist", "wheel"] }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -24,3 +25,6 @@ poetry-plugin-export = "^1.8.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+code-stingray = "code_stingray.cli:main"
