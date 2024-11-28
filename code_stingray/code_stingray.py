@@ -56,7 +56,6 @@ class CodeStingray:
             system_as_human = True
         review_prompt = self.prompt.get_review_prompt(system_as_human=system_as_human)
 
-        # pylint: disable=unsupported-binary-operation
         chain = review_prompt | self.llm
 
         if path:

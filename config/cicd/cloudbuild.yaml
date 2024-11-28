@@ -18,7 +18,7 @@ steps:
         echo "BASE_COMMIT_SHA = $(git rev-parse origin/$_BASE_BRANCH)"
         echo "HEAD_COMMIT_SHA = $(git rev-parse origin/$_HEAD_BRANCH)"
 
-        python -m code_stingray.cli \
+        code-stingray \
           --path . \
           -c1 $(git rev-parse origin/$_BASE_BRANCH) \
           -c2 $(git rev-parse origin/$_HEAD_BRANCH) \
