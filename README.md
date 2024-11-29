@@ -1,6 +1,6 @@
-# code-stingray
+# Code Stingray
 
-code-stingray is a lightweight CLI that leverages GenAI for code review, seamlessly integrating with both GenAI models and CI/CD tools.
+Code Stingray is a lightweight CLI that leverages GenAI for code review, seamlessly integrating with both GenAI models and CI/CD tools.
 
 ## Installation
 Install with pip:
@@ -14,7 +14,7 @@ docker pull ghcr.io/mansunkuo/code-stingray:0.1.2
 ```
 
 ## CLI usage
-The code-stingray CLI helps you understand the impact of code changes by comparing two commits. It integrates with various platforms like Google Cloud and GitHub to provide context and streamline analysis within your development workflow.
+Code Stingray CLI helps you understand the impact of code changes by comparing two commits. It integrates with various platforms like Google Cloud and GitHub to provide context and streamline analysis within your development workflow.
 
 This CLI has two levels of subcommands:
 ```bash
@@ -117,15 +117,14 @@ python -m code_stingray.cli -p . \
 Using Google AI just requires a Google account and an API key. Put your API key in a environment variable named `GOOGLE_API_KEY`. You can use available [Gemini models](https://ai.google.dev/gemini-api/docs/models/gemini) as the LLM for this project. 
 
 ### Google Cloud Vertex AI
-Please make sure you already [set up a project and a development environment of VertexAI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment). 
-
-Please refer to [Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation) or [set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) when you are on your laptop or any other environment outside GCP.
+Please make sure you already [set up a project and a development environment of VertexAI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment). Please refer to [set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) when you are on your laptop or any other environment outside GCP.
 
 
+## Architecture
 
+![code-stingray-container-diagram](https://kroki.io/plantuml/svg/eNptU8tu2zAQvOsrtjrJQIFcciyK2IrrGE0TwQ8EPQm0uJaJUqRKLe0KRf-9Sz0M24kuFAecmd1Z8qEh4chXOvqkTKG9RPiS3t-l93lqDQll0H2NoogUaYQzBFKJ0okK7J5B5qxJGQba6Hn683W7yd-Wm6f8eb6YvzwmE-Zn6BprEt-g-wzxlpeY1ylIPKK2NStiVdsTOpSwa2GBZrqEIig7PCo8xZPobJ7P_1BSKsprLWhvXcVKC0WQDdu43z_5XfhLrdZiZ50gdUQI50YakIWDbQha6x2IEza2ws6U3dZtQ1jlM-uNFK5NyqIOsmkWT-BvBPyd60kKbb3ceaVl8FvepY-dcUBhFuCwXWGBoQJu2FDIrfZac3e_PXIJwkggp8qSk-gVJjcmDRYOuWdnj0p2Ka47BH4II8o-zw8Qso675mlsZ_nm9fv85Z1wiUaoLqiLOXYZYqWM6msPMwA6IFRWqr3iKXXDUaYDL1th_X9RtEI9DPtmUCuhGgQBWaDAamg_mMwU7Xzxi-vfLlkkKFxzr2Le9GHdBA0j3PMvGe_z-4ZUHK6zYfQD6pjQWHsxZndxfjhz020Wrld_g3lpvKbhcmYtHaxhbvSARvLz-w9XISuQ)
 
-
-<!-- ## Architecture
+<!-- https://kroki.io/#try
 ```plantuml
 @startuml
 !include <C4/C4_Container>
@@ -135,24 +134,22 @@ title Container diagram of Code Stingray
 LAYOUT_WITH_LEGEND()
 
 
-Person(user, "User", "A developer enabled by GenAI code review")
+Person(user, "User", "A developer empowered by GenAI code review")
 Container_Ext(git_platform, "Git Platform", "GitHub", "Collaborative Git platform to host your awesome code")
 System_Boundary(gcp, "GCP") {
-    Container(cloudbuild, "CI/CD", "Cloud Build", "A native serverless CI/CD platform in GCP")
-    Container(secret_provider, "Secret Manager", "Secret Manager", "Store API keys, passwords, certificates, and sensitive data")
+    Container(cloudbuild, "CI/CD", "Cloud Build", "Receive event of pull request and trigger CI/CD")
+    Container(secret_provider, "Secret Manager", "Secret Manager", "Store GITHUB_TOKEN")
     Container(genai, "Code Stingray", "Gemini", "Review the modified code in the pull request")
 }
 
 Rel(user, git_platform, "Raise a Pull  Request ", "Bitbucket UI")
 Rel(git_platform, cloudbuild, "Trigger", "Cloud Build Trigger")
-Rel(cloudbuild, secret_provider, "Fetch secrets", "")
+Rel(cloudbuild, secret_provider, "Fetch GITHUB_TOKEN", "")
 Rel(cloudbuild, genai, "Raise a container", "")
 Rel(genai, git_platform, "Post review result", "GitPython")
 
 @enduml
-
 ``` -->
-
 
 ## Development
 ### Version Bump
@@ -161,6 +158,9 @@ bump2version major  # Bump major version
 bump2version minor  # Bump minor version
 bump2version patch  # Bump patch version 
 ```
+
+## References
+- [Code Review Automation with Gemini @ DevFest Taipei 2024](https://docs.google.com/presentation/d/11gMdxddC4e2HHtDo-05i1_108vAZto5AihIay4gLz-k/edit?usp=sharing)
 
 ## License and Attribution
 This project includes material from [genai-for-developers](https://github.com/GoogleCloudPlatform/genai-for-developers), licensed under the Apache License, Version 2.0. 
