@@ -33,6 +33,7 @@ positional arguments:
                         Available LLM
     google_ai           Google AI LLM
     google_cloud        Google Cloud Vertex AI LLM
+    openai              OpenAI LLM
 
 options:
   -h, --help            show this help message and exit
@@ -72,6 +73,16 @@ options:
                         Google Cloud Project
   --google_cloud_location GOOGLE_CLOUD_LOCATION
                         Google Cloud Location (default: us-west1))
+❯ code-stingray openai -h
+usage: code-stingray openai [-h] [--model MODEL] {github} ...
+
+positional arguments:
+  {github}       Git platform
+    github       GitHub
+
+options:
+  -h, --help     show this help message and exit
+  --model MODEL  LLM model name (default: gpt-4o-mini)
 ❯ code-stingray google_cloud github -h
 usage: code-stingray google_cloud github [-h] [--github_token GITHUB_TOKEN] [--github_repo_owner GITHUB_REPO_OWNER] [--github_repo_name GITHUB_REPO_NAME]
                                          [--github_pr_number GITHUB_PR_NUMBER]
@@ -88,6 +99,22 @@ options:
                         GitHub pull request number
 ```
 
+## LLM Provider
+### Google AI
+Using Google AI just requires a Google account and an API key. Put your API key in a environment variable named `GOOGLE_API_KEY`. You can use available [Gemini models](https://ai.google.dev/gemini-api/docs/models/gemini) as the LLM for this project. 
+
+### Google Cloud Vertex AI
+Please make sure you already [set up a project and a development environment of VertexAI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment). Please refer to [set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) when you are on your laptop or any other environment outside GCP.
+
+### OpenAI
+Using OpenAI requires an API key of OpenAI. Put your API key in a environment variable named `OPENAI_API_KEY`. Please check [OpenAI pricing](https://openai.com/api/pricing/) for all available models and their pricing.
+
+## Git Platform
+### GitHub
+You will need a Github Token to write review result to a pull request. Please refer to [Creating a fine-grained personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) and create a fine-grained personal access token with read and write access. Put this token in a environment variable named `GITHUB_TOKEN`.
+
+
+## Example
 For example, if you would like to review current repository:
 ```bash
 git clone https://github.com/mansunkuo/code-stingray.git
@@ -112,17 +139,9 @@ python -m code_stingray.cli -p . \
     --github_pr_number 1
 ```
 
-## Prerequisites
-### Google AI
-Using Google AI just requires a Google account and an API key. Put your API key in a environment variable named `GOOGLE_API_KEY`. You can use available [Gemini models](https://ai.google.dev/gemini-api/docs/models/gemini) as the LLM for this project. 
-
-### Google Cloud Vertex AI
-Please make sure you already [set up a project and a development environment of VertexAI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment). Please refer to [set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc) when you are on your laptop or any other environment outside GCP.
-
-
 ## Architecture
-
-![code-stingray-container-diagram](https://kroki.io/plantuml/svg/eNptU8tu2zAQvOsrtjrJQIFcciyK2IrrGE0TwQ8EPQm0uJaJUqRKLe0KRf-9Sz0M24kuFAecmd1Z8qEh4chXOvqkTKG9RPiS3t-l93lqDQll0H2NoogUaYQzBFKJ0okK7J5B5qxJGQba6Hn683W7yd-Wm6f8eb6YvzwmE-Zn6BprEt-g-wzxlpeY1ylIPKK2NStiVdsTOpSwa2GBZrqEIig7PCo8xZPobJ7P_1BSKsprLWhvXcVKC0WQDdu43z_5XfhLrdZiZ50gdUQI50YakIWDbQha6x2IEza2ws6U3dZtQ1jlM-uNFK5NyqIOsmkWT-BvBPyd60kKbb3ceaVl8FvepY-dcUBhFuCwXWGBoQJu2FDIrfZac3e_PXIJwkggp8qSk-gVJjcmDRYOuWdnj0p2Ka47BH4II8o-zw8Qso675mlsZ_nm9fv85Z1wiUaoLqiLOXYZYqWM6msPMwA6IFRWqr3iKXXDUaYDL1th_X9RtEI9DPtmUCuhGgQBWaDAamg_mMwU7Xzxi-vfLlkkKFxzr2Le9GHdBA0j3PMvGe_z-4ZUHK6zYfQD6pjQWHsxZndxfjhz020Wrld_g3lpvKbhcmYtHaxhbvSARvLz-w9XISuQ)
+### GCP with GitHub
+![code-stingray-container-diagram](https://kroki.io/plantuml/svg/eNptU8tu2zAQvOsrtjrZQIFcciyK2IrrGHUSwQ8EPQm0uJaJUKRKLu0KRf-9S8k2bCe6UBxxdnZnqAdPwlGodfJFmVIHifAtu7_L7ovMGhLKoPueJAkp0ghnCKQSlRM12C2DzFmSMgy0yXz063W9Kt5mq6diPplOXh4HQ-bn6Lw1g-DRfYV0zUvK6wgk7lHbhiti3dgDOpSwaWGKZjSDMlZ2uFd4SIfJWbyY_KFBpahotKCtdTVXmiqC_LhN-_1T2MS3zGotNtYJUnuEeO5EA7Kws56gtcGBOKC3NXairLZsPWFdjG0wUrh2UJVNLJvl6RD-JsDPuZ9BqW2Qm6C0jHqzu-yxE44ojCMctwssMXbAAxuKvjVBa57ud0BuQRgJ5FRVsRN9heGNiMfSIc_s7F7JzsVlh8CzMKLq_fwEIet4ak5jPS5Wrz8nL52UaBS8Y-tjH5Z2LDqfP_sPmhUaoToPLyLu7MVaGf7CyfGJfrwYE3AtqK1UW8VBdvkp04GX07LOvyRZoD7eh5ssF0J5BAF5pMDi6FAUGSvahPKdR1zPuEiscM29SmLV-3mTBZzgnn_J-GjxD6Ryd2VfrPYJ9eTUqffy5OHF-eOZm2nzeAP7S86LD5qO9zdvaWcNc5MHNJL_0P_RAjeQ)
 
 <!-- https://kroki.io/#try
 ```plantuml
@@ -138,8 +157,8 @@ Person(user, "User", "A developer empowered by GenAI code review")
 Container_Ext(git_platform, "Git Platform", "GitHub", "Collaborative Git platform to host your awesome code")
 System_Boundary(gcp, "GCP") {
     Container(cloudbuild, "CI/CD", "Cloud Build", "Receive event of pull request and trigger CI/CD")
-    Container(secret_provider, "Secret Manager", "Secret Manager", "Store GITHUB_TOKEN")
-    Container(genai, "Code Stingray", "Gemini", "Review the modified code in the pull request")
+    Container(secret_provider, "Secret Manager", "Secret Manager", "Store GITHUB_TOKEN and api keys of other LLMs")
+    Container(genai, "Code Stingray", "Gemini, openai", "Review the modified code in the pull request")
 }
 
 Rel(user, git_platform, "Raise a Pull  Request ", "Bitbucket UI")

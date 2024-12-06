@@ -88,11 +88,14 @@ def get_args():
         help="Google Cloud Location (default: %(default)s))",
     )
 
-    # # openai
-    # openai_parser = llm_parsers.add_parser("openai", help="OpenAI LLM")
-    # openai_parser.add_argument(
-    #     "--model", type=str, default="gpt-4", help="LLM model name"
-    # )
+    # openai
+    openai_parser = llm_parsers.add_parser("openai", help="OpenAI LLM")
+    openai_parser.add_argument(
+        "--model",
+        type=str,
+        default="gpt-4o-mini",
+        help="LLM model name (default: %(default)s)",
+    )
 
     # Git platform
     for llm_parser in llm_parsers.choices.values():
