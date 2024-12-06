@@ -5,12 +5,12 @@ Code Stingray is a lightweight CLI that leverages GenAI for code review, seamles
 ## Installation
 Install with pip:
 ```bash
-pip install git+https://github.com/mansunkuo/code-stingray.git@0.1.2
+pip install git+https://github.com/mansunkuo/code-stingray.git@0.1.3
 ```
 
 Or download the container:
 ```bash
-docker pull ghcr.io/mansunkuo/code-stingray:0.1.2
+docker pull ghcr.io/mansunkuo/code-stingray:0.1.3
 ```
 
 ## CLI usage
